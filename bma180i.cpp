@@ -30,15 +30,8 @@ byte bma180i::BMA180_ReadTemperature() {
 }
 
 void bma180i::BMA180_SetRange(byte range) {
-    float g_divider = getDividerByRange(range);
-
-    this->g_divider = g_divider;
-
-    Serial.print("g dividor:");
-    Serial.println(g_divider);
-
-    Serial.print("range: ");
-    Serial.println(range);
+    //set g-divider to properly get measures in G
+    g_divider = getDividerByRange(range);
 
     // Connect to the offset_lsb1 register and set the range
     byte last_value = BMA180_ReadByte(address, BMA180_CMD_OFFSET_LSB1);
