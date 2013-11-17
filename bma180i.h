@@ -36,6 +36,14 @@ class bma180i {
 #define BMA180_RANGE_8G     0x05
 #define BMA180_RANGE_16G    0x06
 
+#define BMA180_RANGE_1G_G_DIVIDER 0.00013f
+#define BMA180_RANGE_1DOT5G_G_DIVIDER 0.00019f
+#define BMA180_RANGE_2G_G_DIVIDER 0.00025f
+#define BMA180_RANGE_3G_G_DIVIDER 0.00038f
+#define BMA180_RANGE_4G_G_DIVIDER 0.00050f
+#define BMA180_RANGE_8G_G_DIVIDER 0.00099f
+#define BMA180_RANGE_16G_G_DIVIDER 1.00098f
+
     //pick your mode
 #define BMA180_MODE_LOW_NOISE 0x00
 #define BMA180_MODE_LOW_POWER 0x03
@@ -58,10 +66,11 @@ class bma180i {
 #define BMA180_CMD_CTRL_REG2        0x0F
 #define BMA180_CMD_RESET            0x10
 #define BMA180_CMD_BW_TCS           0x20
+#define BMA180_CMD_OFFSET_LSB1      0x35
 #define BMA180_CMD_CTRL_REG3        0x21
     //#define BMA180_CMD_CTRL_REG3        0x22
 
-    byte temp;
+    float g_divider;
     byte address;
 public:
     bma180i(): address(BMA180_ADDRESS) {}
@@ -69,11 +78,27 @@ public:
     byte BMA180_WriteByte(byte i2c_address, byte address, byte data);
     byte BMA180_ReadByte(byte i2c_address, byte address);
     byte BMA180_ReadId(byte address);
-    void BMA180_SetBandwidth(byte address, byte bandwidth);
-    void BMA180_SetRange(byte address, byte range);
     byte BMA180_ReadTemperature();
 
     void BMA180_Init();
+
+    int BMA180_ReadX();
+
+    int BMA180_ReadY();
+
+    int BMA180_ReadZ();
+
+    float BMA180_ReadX_G();
+
+    float BMA180_ReadY_G();
+
+    float BMA180_ReadZ_G();
+
+    void BMA180_SetRange(byte range);
+
+    void BMA180_SetBandwidth(byte bandwidth);
+
+    float getDividerByRange(byte range);
 };
 
 
