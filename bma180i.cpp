@@ -6,13 +6,17 @@ void bma180i::BMA180_Init() {
     int id = BMA180_ReadId(address);
 
     if (id == BMA180_CHIP_ID) {
-        Serial.println("BMA180 Chip Detect Pass");
+        //BMA180 Chip Detect Pass
 
         // Connect to the ctrl_reg1 register and set the ee_w bit to enable writing.
         if (BMA180_WriteByte(address, BMA180_CMD_CTRL_REG0, 0x10) == 0)
-            Serial.println("BMA180 Write Init Pass. ");
+        {
+            //BMA180 Write Init Pass
+        }
         else
-            Serial.println("BMA180 Write Init Fail");
+        {
+            //BMA180 Write Init Fail
+        }
     }
     else {
         Serial.print(id);
