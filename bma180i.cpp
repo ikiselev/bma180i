@@ -110,6 +110,21 @@ float bma180i::BMA180_ReadZ_G() {
     return BMA180_ReadZ() * g_divider;
 }
 
+
+
+void bma180i::readAcc() {
+    Wire.beginTransmission(address);
+    Wire.write(BMA180_CMD_ACC_X_LSB);
+    Wire.endTransmission();
+
+    Wire.requestFrom(address, (byte)6);
+
+    a.x = (Wire.read() | (Wire.read() << 8)) >> 2;
+    a.y = (Wire.read() | (Wire.read() << 8)) >> 2;
+    a.z = (Wire.read() | (Wire.read() << 8)) >> 2;
+}
+
+
 byte bma180i::BMA180_WriteByte(byte i2c_address, byte address, byte data) {
     Wire.beginTransmission(i2c_address);
     Wire.write(address);
@@ -123,7 +138,7 @@ byte bma180i::BMA180_WriteByte(byte i2c_address, byte address, byte data) {
     }
 
     //the BMA180 has slow EEPROM.  take it easy.
-    delay(10);
+    //delay(10);
 
     return result;
 }

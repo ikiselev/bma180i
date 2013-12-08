@@ -75,6 +75,13 @@ class bma180i {
 public:
     bma180i(): address(BMA180_ADDRESS) {}
 
+    typedef struct vector
+    {
+        int x, y, z;
+    } vector;
+
+    vector a; // accelerometer data
+
     byte BMA180_WriteByte(byte i2c_address, byte address, byte data);
     byte BMA180_ReadByte(byte i2c_address, byte address);
     byte BMA180_ReadId(byte address);
@@ -99,6 +106,8 @@ public:
     void BMA180_SetBandwidth(byte bandwidth);
 
     float getDividerByRange(byte range);
+
+    void readAcc();
 };
 
 
