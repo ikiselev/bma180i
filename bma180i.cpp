@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include <Wire.h>
 #include "bma180i.h"
 
@@ -12,16 +14,22 @@ void bma180i::BMA180_Init() {
         // Connect to the ctrl_reg1 register and set the ee_w bit to enable writing.
         if (BMA180_WriteByte(address, BMA180_CMD_CTRL_REG0, 0x10) == 0)
         {
-            //debug("BMA180 Write Init Pass");
+            #if DEBUG_SENSORS_ENABLE
+            debug("BMA180 Write Init Pass");
+            #endif
         }
+        #if DEBUG_SENSORS_ENABLE
         else
         {
-            //debug("BMA180 Write Init Fail");
+            debug("BMA180 Write Init Fail");
         }
+        #endif
     }
+    #if DEBUG_SENSORS_ENABLE
     else {
-        //debug((char *)id, " <- BMA180 Chip Detect Fail");
+        debug((char *)id, " <- BMA180 Chip Detect Fail");
     }
+    #endif
 }
 
 byte bma180i::BMA180_ReadId(byte address) {
@@ -131,10 +139,12 @@ byte bma180i::BMA180_WriteByte(byte i2c_address, byte address, byte data) {
     Wire.write(data);
     byte result = Wire.endTransmission();
 
+    #if DEBUG_SENSORS_ENABLE
     //do some error checking
-    /*if (result > 0) {
+    if (result > 0) {
         debug((char *)result, "PROBLEM..... Result code is ");
-    }*/
+    }
+    #endif
 
     //the BMA180 has slow EEPROM.  take it easy.
     //delay(10);
