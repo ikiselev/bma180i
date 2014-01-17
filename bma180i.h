@@ -108,6 +108,10 @@ public:
     float getDividerByRange(byte range);
 
     void readAcc();
+
+    void calibrateXY();
+
+    int offsetXY[2];
 };
 
 

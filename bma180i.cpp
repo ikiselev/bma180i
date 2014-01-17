@@ -167,3 +167,17 @@ byte bma180i::BMA180_ReadByte(byte i2c_address, byte address)
     return temp;
 }
 
+void bma180i::calibrateXY() {
+    int i, count = 50;
+    long xSum = 0, ySum = 0;
+
+    for(i = 0; i < count; i++) {
+        delay(5);
+        readAcc();
+        xSum += this->a.x;
+        ySum += this->a.y;
+    }
+
+    offsetXY[0] = -xSum / count;
+    offsetXY[1] = -ySum / count;
+}
